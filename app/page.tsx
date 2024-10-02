@@ -20,6 +20,7 @@ const numberToWords = (num: number) => {
 
 const humanizeTime = (hours: number, minutes: number, is24Hour: boolean) => {
   let displayHours = is24Hour ? hours : hours % 12 || 12;
+  const nextHour = is24Hour ? (hours + 1) % 24 : (hours % 12) + 1;
 
   const hourWord = numberToWords(displayHours);
   const minuteWord = numberToWords(minutes);
@@ -27,15 +28,16 @@ const humanizeTime = (hours: number, minutes: number, is24Hour: boolean) => {
   let timeString = '';
 
   if (minutes === 0) {
-    timeString = `<strong>${numberToWords(displayHours)}</strong> o'clock`;
+    timeString = `<strong>${hourWord}</strong> o'clock`;
   } else if (minutes < 30) {
     timeString = `<strong>${minuteWord}</strong> minutes past <strong>${hourWord}</strong>`;
   } else {
-    timeString = `<strong>${numberToWords(60 - minutes)}</strong> minutes to <strong>${numberToWords((displayHours % 12) + 1)}</strong>`;
+    timeString = `<strong>${numberToWords(60 - minutes)}</strong> minutes to <strong>${numberToWords(nextHour)}</strong>`;
   }
 
   return timeString;
 };
+
 
 export default function Home() {
   const [time, setTime] = useState(new Date());
