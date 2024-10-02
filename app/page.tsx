@@ -59,15 +59,15 @@ export default function Home() {
   const minutes = time.getMinutes();
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 relative">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 relative p-4">
       {/* Display human-readable time with numbers as words */}
       <h1
-        className="text-4xl mb-4"
+        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-4 text-center"
         dangerouslySetInnerHTML={{ __html: humanizeTime(hours, minutes, is24Hour) }}
       />
 
       {/* 12/24-hour and Light/Dark mode toggle buttons */}
-      <div className="absolute bottom-4 left-4 flex flex-col space-y-2">
+      <div className="absolute bottom-4 left-4 md:left-auto md:bottom-auto md:top-4 md:right-4 flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
         {/* 12/24-hour toggle button */}
         <button
           onClick={() => setIs24Hour(!is24Hour)}
