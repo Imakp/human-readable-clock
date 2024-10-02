@@ -18,31 +18,20 @@ const numberToWords = (num: number) => {
   return words[num];
 };
 
-const humanizeTime = (hours: number, minutes: number, seconds: number, is24Hour: boolean) => {
+const humanizeTime = (hours: number, minutes: number, is24Hour: boolean) => {
   let displayHours = is24Hour ? hours : hours % 12 || 12;
 
   const hourWord = numberToWords(displayHours);
   const minuteWord = numberToWords(minutes);
-  const secondWord = numberToWords(seconds);
 
   let timeString = '';
 
-  if (minutes === 0 && seconds === 0) {
+  if (minutes === 0) {
     timeString = `<strong>${numberToWords(displayHours)}</strong> o'clock`;
-  } else if (minutes === 0) {
-    timeString = `<strong>${numberToWords(displayHours)}</strong> o'clock and <strong>${secondWord}</strong> seconds`;
-  } else if (seconds === 0) {
-    if (is24Hour) {
-      timeString = `<strong>${numberToWords(displayHours)}</strong> hours and <strong>${minuteWord}</strong> minutes`;
-    } else {
-      timeString = `<strong>${minuteWord}</strong> minutes past <strong>${hourWord}</strong>`;
-    }
+  } else if (minutes < 30) {
+    timeString = `<strong>${minuteWord}</strong> minutes past <strong>${hourWord}</strong>`;
   } else {
-    if (minutes < 30) {
-      timeString = `<strong>${minuteWord}</strong> minutes and <strong>${secondWord}</strong> seconds past <strong>${hourWord}</strong>`;
-    } else {
-      timeString = `<strong>${numberToWords(60 - minutes)}</strong> minutes and <strong>${numberToWords(60 - seconds)}</strong> seconds to <strong>${numberToWords((displayHours % 12) + 1)}</strong>`;
-    }
+    timeString = `<strong>${numberToWords(60 - minutes)}</strong> minutes to <strong>${numberToWords((displayHours % 12) + 1)}</strong>`;
   }
 
   return timeString;
@@ -68,14 +57,13 @@ export default function Home() {
 
   const hours = time.getHours();
   const minutes = time.getMinutes();
-  const seconds = time.getSeconds();
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 relative">
       {/* Display human-readable time with numbers as words */}
       <h1
         className="text-4xl mb-4"
-        dangerouslySetInnerHTML={{ __html: humanizeTime(hours, minutes, seconds, is24Hour) }}
+        dangerouslySetInnerHTML={{ __html: humanizeTime(hours, minutes, is24Hour) }}
       />
 
       {/* 12/24-hour and Light/Dark mode toggle buttons */}
